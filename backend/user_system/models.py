@@ -34,12 +34,10 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
 
     username = models.CharField(
-        verbose_name=_('username id'),
         max_length=45,
         unique=True,
-        help_text='USERNAME ID.'
     )
-    
+
     nickname = models.CharField(
         max_length=45
     )

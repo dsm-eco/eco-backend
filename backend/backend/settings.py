@@ -13,6 +13,7 @@ import datetime
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import user_system
 from backend import my_settings
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -130,9 +131,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
+AUTH_USER_MODEL = 'user_system.User'
+
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
