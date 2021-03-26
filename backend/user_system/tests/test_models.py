@@ -33,4 +33,3 @@ class UserModelTests(TestCase):
         user = User.objects.get(id=1)
         expected_object_name = user.username
         self.assertEquals(expected_object_name, str(user))
-
