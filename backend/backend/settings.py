@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'user_system',
+    'ecoshop',
 ]
 
 MIDDLEWARE = [
