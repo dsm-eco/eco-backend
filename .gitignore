@@ -4,6 +4,8 @@
 
 my_settings.py
 
+media
+
 ### Django ###
 *.log
 *.pot
