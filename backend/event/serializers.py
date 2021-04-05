@@ -5,7 +5,6 @@ from event.models import EventImage, Event
 
 
 class EventImageSerializer(serializers.ModelSerializer):
-
     image = serializers.ImageField(use_url=True)
 
     class Meta:
@@ -17,8 +16,7 @@ class EventSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
 
     def get_images(self, obj):
-
-        image = obj.diaryimage_set.all()
+        image = obj.eventimage_set.all()
         return EventImageSerializer(instance=image, many=True, context=self.context).data
 
     class Meta:

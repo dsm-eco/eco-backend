@@ -4,7 +4,6 @@ from ecoshop.models import Shop, ShopImage
 
 
 class ShopImageSerializer(serializers.ModelSerializer):
-
     image = serializers.ImageField(use_url=True)
 
     class Meta:
@@ -16,13 +15,12 @@ class ShopSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
 
     def get_images(self, obj):
-
-        image = obj.diaryimage_set.all()
+        image = obj.shopimage_set.all()
         return ShopImageSerializer(instance=image, many=True, context=self.context).data
 
     class Meta:
         model = Shop
-        fields = ('id', 'name', 'address', 'content', 'heart_cnt', 'heart')
+        fields = ('id', 'name', 'address', 'content', 'heart_cnt', 'heart', 'report', 'images')
 
     def create(self, validated_data):
         instance = Shop.objects.create(**validated_data)
