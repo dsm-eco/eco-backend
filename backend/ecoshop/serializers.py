@@ -15,7 +15,7 @@ class ShopSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
 
     def get_images(self, obj):
-        image = obj.shopimage_set.all()
+        image = obj.shoppostimage_set.all()
         return ShopPostImageSerializer(instance=image, many=True, context=self.context).data
 
     class Meta:
