@@ -26,6 +26,6 @@ shop_detail = EcoShopViewSet.as_view({"patch": "partial_update", "delete": "dest
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('user_system.urls')),
-    path('shop/', shop_list),
-    path('shop/<int:pk>/', shop_detail)
+    path('shop-post/', shop_list),
+    path('shop-post/<int:pk>/', shop_detail)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from ecoshop.models import Shop, ShopImage
 from event.models import EventImage, Event
 
 
