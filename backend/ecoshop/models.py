@@ -10,6 +10,7 @@ class Shop(models.Model):
     content = models.CharField(max_length=200, blank=True, null=True)
     heart_cnt = models.IntegerField(default=0, blank=True, null=False)
     heart = models.BooleanField(default=False, blank=True)
+    report = models.IntegerField(default=0, blank=True, null=False)
 
 
 class ShopImage(models.Model):

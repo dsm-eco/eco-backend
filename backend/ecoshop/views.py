@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+from ecoshop.models import Shop
+from ecoshop.serializers import ShopSerializer
+
+
+class EcoShopViewSet(viewsets.GenericViewSet):
+    serializer_class = ShopSerializer
+    queryset = Shop.objects.all()
