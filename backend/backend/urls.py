@@ -17,15 +17,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
+from ecoshop import views
 from ecoshop.views import EcoShopViewSet
 
-shop_list = EcoShopViewSet.as_view({"get": "list", "post": "create"})
-shop_detail = EcoShopViewSet.as_view({"patch": "partial_update", "delete": "destroy"})
+router = DefaultRouter()
+router.register(r'shop', views.EcoShopViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('user_system.urls')),
-    path('shop/', shop_list),
-    path('shop/<int:pk>/', shop_detail)
+
+    path('', include(router.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

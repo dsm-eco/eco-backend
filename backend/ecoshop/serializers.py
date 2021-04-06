@@ -20,11 +20,11 @@ class ShopSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShopPost
-        fields = ('id', 'name', 'address', 'content', 'heart_cnt', 'heart', 'report', 'images')
+        fields = ('id', 'nickname', 'name', 'address', 'content', 'heart_cnt', 'heart', 'report', 'images')
 
     def create(self, validated_data):
         instance = ShopPost.objects.create(**validated_data)
         image_set = self.context['request'].FILES
         for image_data in image_set.getlist('image'):
-            ShopPostImage.objects.create(shop=instance, image=image_data)
+            ShopPostImage.objects.create(shop_post=instance, image=image_data)
         return instance

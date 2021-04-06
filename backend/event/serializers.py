@@ -23,8 +23,8 @@ class EventSerializer(serializers.ModelSerializer):
         fields = ('id', 'content', 'heart_cnt', 'heart')
 
     def create(self, validated_data):
-        instance = Shop.objects.create(**validated_data)
+        instance = Event.objects.create(**validated_data)
         image_set = self.context['request'].FILES
         for image_data in image_set.getlist('image'):
-            ShopImage.objects.create(event=instance, image=image_data)
+            EventImage.objects.create(event=instance, image=image_data)
         return instance
