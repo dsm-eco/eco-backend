@@ -28,3 +28,11 @@ class EcoShopViewSet(viewsets.ModelViewSet):
         instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['GET'])
+    def report(self, request):
+        instance = self.get_object()
+        instance.report += 1
+        instance.save()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
