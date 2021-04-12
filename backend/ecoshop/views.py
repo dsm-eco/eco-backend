@@ -7,7 +7,7 @@ from ecoshop.models import ShopPost
 from ecoshop.serializers import ShopSerializer
 
 
-class EcoShopViewSet(viewsets.ModelViewSet):
+class ShopPostViewSet(viewsets.ModelViewSet):
     serializer_class = ShopSerializer
     permission_classes = [IsAuthenticated, ]
     queryset = ShopPost.objects.all()

@@ -19,11 +19,12 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from ecoshop import views
-from ecoshop.views import EcoShopViewSet
+from ecoshop.views import ShopPostViewSet
+from event.views import EventViewSet
 
 router = DefaultRouter()
-router.register(r'shop', views.EcoShopViewSet)
+router.register(r'shop', ShopPostViewSet)
+router.register(r'event', EventViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
