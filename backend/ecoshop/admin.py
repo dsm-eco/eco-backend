@@ -5,4 +5,6 @@ from ecoshop.models import ShopPost
 
 @admin.register(ShopPost)
 class EcoShopPostAdmin(admin.ModelAdmin):
-    list_display = ['id', 'nickname', 'name', 'content', 'heart_cnt', 'report']
+    list_display = ['id', 'nickname', 'name', 'report']
+    fields = ['nickname', 'name', 'address', 'content', 'report', 'heart_cnt']
+    readonly_fields = ['nickname', 'name', 'address', 'content', 'report', 'heart_cnt']

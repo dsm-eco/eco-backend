@@ -15,8 +15,16 @@ class ShopPostViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user, nickname=self.request.user.nickname)
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.user.id == self.request.user.id:
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
     @action(detail=True, methods=['get'])
-    def heart(self, request):
+    def heart(self, request, pk):
         instance = self.get_object()
         instance.heart = not instance.heart
 
@@ -30,7 +38,7 @@ class ShopPostViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['GET'])
-    def report(self, request):
+    def report(self, request, pk):
         instance = self.get_object()
         instance.report += 1
         instance.save()
