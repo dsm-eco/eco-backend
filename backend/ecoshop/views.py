@@ -1,5 +1,9 @@
+import json
+
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, permission_classes, api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -23,20 +27,6 @@ class ShopPostViewSet(viewsets.ModelViewSet):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=True, methods=['get'])
-    def heart(self, request, pk):
-        instance = self.get_object()
-        instance.heart = not instance.heart
-
-        if not instance.heart:
-            instance.heart_cnt -= 1
-        else:
-            instance.heart_cnt += 1
-
-        instance.save()
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
     @action(detail=True, methods=['GET'])
     def report(self, request, pk):
         instance = self.get_object()
@@ -44,3 +34,19 @@ class ShopPostViewSet(viewsets.ModelViewSet):
         instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['GET'])
+    def heart(self, requset, pk):
+        instance = self.get_object()
+        user = requset.user
+
+        if instance.likes_user.filter(id=user.id).exists():
+            instance.likes_user.remove(user)
+            message = '하트 취소'
+        else:
+            instance.likes_user.add(user)
+            message = '하트 누르기'
+
+        context = {'heart_cnt': instance.count_likes_user(), 'message': message}
+        return HttpResponse(json.dumps(context), content_type="application/json")
+

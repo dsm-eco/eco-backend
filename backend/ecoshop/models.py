@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 from user_system.models import User
@@ -9,9 +10,22 @@ class ShopPost(models.Model):
     name = models.CharField(max_length=45, blank=False, null=False)
     address = models.CharField(max_length=100, blank=False, null=False)
     content = models.CharField(max_length=200, blank=True, null=True)
-    heart_cnt = models.IntegerField(default=0, blank=True, null=False)
-    heart = models.BooleanField(default=False, blank=True)
     report = models.IntegerField(default=0, blank=True, null=False)
+
+    likes_user = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='likes_user',
+        through='ShopPostLike',
+    )
+
+    def count_likes_user(self):
+        return self.likes_user.count()
+
+
+class ShopPostLike(models.Model):
+    shop_post = models.ForeignKey(ShopPost, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
 
 
 class ShopPostImage(models.Model):

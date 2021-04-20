@@ -20,7 +20,7 @@ class ShopSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShopPost
-        fields = ('id', 'nickname', 'name', 'address', 'content', 'heart_cnt', 'heart', 'report', 'images')
+        fields = ('id', 'nickname', 'name', 'address', 'content', 'report', 'images')
 
     def create(self, validated_data):
         instance = ShopPost.objects.create(**validated_data)

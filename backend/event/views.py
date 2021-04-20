@@ -22,17 +22,3 @@ class EventViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
-    @action(detail=True, methods=['get'])
-    def heart(self, request, pk):
-        instance = self.get_object()
-        instance.heart = not instance.heart
-
-        if not instance.heart:
-            instance.heart_cnt -= 1
-        else:
-            instance.heart_cnt += 1
-
-        instance.save()
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -20,7 +20,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ('id', 'content', 'event_date', 'heart_cnt', 'heart')
+        fields = ('id', 'content', 'event_date', 'images')
 
     def create(self, validated_data):
         instance = Event.objects.create(**validated_data)
