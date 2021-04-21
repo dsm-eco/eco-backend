@@ -1,9 +1,8 @@
 import json
 
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
-from rest_framework.decorators import action, permission_classes, api_view
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -18,6 +17,11 @@ class ShopPostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user, nickname=self.request.user.nickname)
+
+    def get_serializer_context(self):
+        context = super(ShopPostViewSet, self).get_serializer_context()
+        context.update({"request": self.request})
+        return context
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -40,13 +44,13 @@ class ShopPostViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
         user = requset.user
 
-        if instance.likes_user.filter(id=user.id).exists():
-            instance.likes_user.remove(user)
-            message = '하트 취소'
+        if instance.shop_post_likes_user.filter(id=user.id).exists():
+            instance.shop_post_likes_user.remove(user)
+            message = 'false'
         else:
-            instance.likes_user.add(user)
-            message = '하트 누르기'
+            instance.shop_post_likes_user.add(user)
+            message = 'true'
 
-        context = {'heart_cnt': instance.count_likes_user(), 'message': message}
+        context = {'heart_cnt': instance.count_likes_user(), 'heart': message}
         return HttpResponse(json.dumps(context), content_type="application/json")
 

@@ -12,9 +12,9 @@ class ShopPost(models.Model):
     content = models.CharField(max_length=200, blank=True, null=True)
     report = models.IntegerField(default=0, blank=True, null=False)
 
-    likes_user = models.ManyToManyField(
+    shop_post_likes_user = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        related_name='likes_user',
+        related_name='shop_post_likes_user',
         through='ShopPostLike',
     )
 
@@ -25,7 +25,6 @@ class ShopPost(models.Model):
 class ShopPostLike(models.Model):
     shop_post = models.ForeignKey(ShopPost, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    created_date = models.DateTimeField(auto_now_add=True)
 
 
 class ShopPostImage(models.Model):
@@ -40,5 +39,5 @@ class Shop(models.Model):
 
 
 class ShopImage(models.Model):
-    shop = models.ForeignKey(ShopPost, on_delete=models.CASCADE)
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='shop', blank=True, null=True)

@@ -13,14 +13,26 @@ class ShopPostImageSerializer(serializers.ModelSerializer):
 
 class ShopSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
+    heart_cnt = serializers.SerializerMethodField()
+    heart = serializers.SerializerMethodField()
 
     def get_images(self, obj):
         image = obj.shoppostimage_set.all()
         return ShopPostImageSerializer(instance=image, many=True, context=self.context).data
 
+    def get_heart_cnt(self, obj):
+        return obj.count_likes_user()
+
+    def get_heart(self, obj):
+        user = self.context.get('request').user
+        if obj.shop_post_likes_user.filter(id=user.id).exists():
+            return True
+        else:
+            return False
+
     class Meta:
         model = ShopPost
-        fields = ('id', 'nickname', 'name', 'address', 'content', 'report', 'images')
+        fields = ('id', 'nickname', 'name', 'address', 'content', 'heart_cnt', 'heart', 'report', 'images')
 
     def create(self, validated_data):
         instance = ShopPost.objects.create(**validated_data)
