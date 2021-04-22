@@ -13,7 +13,7 @@ from ecoshop.serializers import ShopSerializer
 class ShopPostViewSet(viewsets.ModelViewSet):
     serializer_class = ShopSerializer
     permission_classes = [IsAuthenticated, ]
-    queryset = ShopPost.objects.all()
+    queryset = ShopPost.objects.filter(permission=False)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user, nickname=self.request.user.nickname)
