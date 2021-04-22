@@ -19,7 +19,7 @@ class ShopPost(models.Model):
     )
 
     def count_likes_user(self):
-        return self.likes_user.count()
+        return self.shop_post_likes_user.count()
 
 
 class ShopPostLike(models.Model):

@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from event.models import Event
+
+
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display = ['id', 'nickname']
+    fields = ['nickname', 'content', 'event_date']
+    readonly_fields = ['nickname', 'content', 'event_date']
