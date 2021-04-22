@@ -11,7 +11,7 @@ class ShopPost(models.Model):
     address = models.CharField(max_length=100, blank=False, null=False)
     content = models.CharField(max_length=200, blank=True, null=True)
     report = models.IntegerField(default=0, blank=True, null=False)
-    permissions = models.BooleanField(default=False)
+    permission = models.BooleanField(default=False)
 
     shop_post_likes_user = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
