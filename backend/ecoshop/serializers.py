@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ecoshop.models import ShopPost, ShopPostImage, ShopImage
+from ecoshop.models import ShopPost, ShopPostImage, ShopImage, Shop
 
 
 class ShopPostImageSerializer(serializers.ModelSerializer):
@@ -58,5 +58,5 @@ class ShopSerializer(serializers.ModelSerializer):
         return ShopImageSerializer(instance=image, many=True, context=self.context).data
 
     class Meta:
-        model = ShopPost
+        model = Shop
         fields = ('id', 'name', 'address', 'content', 'images')
