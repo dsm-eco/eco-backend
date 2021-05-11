@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ecoshop.models import ShopPost, ShopPostImage
+from ecoshop.models import ShopPost, ShopPostImage, ShopImage
 
 
 class ShopPostImageSerializer(serializers.ModelSerializer):
@@ -11,7 +11,7 @@ class ShopPostImageSerializer(serializers.ModelSerializer):
         fields = ['image']
 
 
-class ShopSerializer(serializers.ModelSerializer):
+class ShopPostSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
     heart_cnt = serializers.SerializerMethodField()
     heart = serializers.SerializerMethodField()
@@ -40,3 +40,23 @@ class ShopSerializer(serializers.ModelSerializer):
         for image_data in image_set.getlist('image'):
             ShopPostImage.objects.create(shop_post=instance, image=image_data)
         return instance
+
+
+class ShopImageSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(use_url=True)
+
+    class Meta:
+        model = ShopImage
+        fields = ['image']
+
+
+class ShopSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField()
+
+    def get_images(self, obj):
+        image = obj.shopimage_set.all()
+        return ShopImageSerializer(instance=image, many=True, context=self.context).data
+
+    class Meta:
+        model = ShopPost
+        fields = ('id', 'name', 'address', 'content', 'images')

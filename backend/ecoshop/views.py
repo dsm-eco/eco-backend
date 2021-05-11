@@ -7,13 +7,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from ecoshop.models import ShopPost
-from ecoshop.serializers import ShopSerializer
+from ecoshop.serializers import ShopPostSerializer
 
 
 class ShopPostViewSet(viewsets.ModelViewSet):
-    serializer_class = ShopSerializer
+    serializer_class = ShopPostSerializer
     permission_classes = [IsAuthenticated, ]
-    queryset = ShopPost.objects.filter(permission=False)
+    queryset = ShopPost.objects.select_related('user').filter(permission=False)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user, nickname=self.request.user.nickname)
