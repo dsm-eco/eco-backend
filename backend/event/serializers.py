@@ -16,6 +16,11 @@ class EventSerializer(serializers.ModelSerializer):
     heart_cnt = serializers.SerializerMethodField()
     heart = serializers.SerializerMethodField()
 
+    user_id = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+        default=serializers.CurrentUserDefault()
+    )
+
     def get_images(self, obj):
         image = obj.eventimage_set.all()
         return EventImageSerializer(instance=image, many=True, context=self.context).data

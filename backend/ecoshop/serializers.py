@@ -16,6 +16,11 @@ class ShopPostSerializer(serializers.ModelSerializer):
     heart_cnt = serializers.SerializerMethodField()
     heart = serializers.SerializerMethodField()
 
+    user_id = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+        default=serializers.CurrentUserDefault()
+    )
+
     def get_images(self, obj):
         image = obj.shoppostimage_set.all()
         return ShopPostImageSerializer(instance=image, many=True, context=self.context).data
@@ -30,16 +35,16 @@ class ShopPostSerializer(serializers.ModelSerializer):
         else:
             return False
 
-    class Meta:
-        model = ShopPost
-        fields = ('id', 'nickname', 'name', 'address', 'content', 'heart_cnt', 'heart', 'report', 'images')
-
     def create(self, validated_data):
         instance = ShopPost.objects.create(**validated_data)
         image_set = self.context['request'].FILES
         for image_data in image_set.getlist('image'):
             ShopPostImage.objects.create(shop_post=instance, image=image_data)
         return instance
+
+    class Meta:
+        model = ShopPost
+        fields = ('id', 'user_id', 'nickname', 'name', 'address', 'content', 'heart_cnt', 'heart', 'report', 'images')
 
 
 class ShopImageSerializer(serializers.ModelSerializer):
