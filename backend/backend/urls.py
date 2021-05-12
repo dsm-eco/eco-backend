@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from ecoshop.views import ShopPostViewSet
+from ecoshop_post.views import ShopPostViewSet
 from event.views import EventViewSet
 
 router = DefaultRouter()

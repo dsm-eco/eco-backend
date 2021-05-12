@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'ecoshop',
     'event',
     'mypage',
+    'ecoshop_post',
 ]
 
 MIDDLEWARE = [
