@@ -1,3 +1,4 @@
+import django.db.models.fields
 from rest_framework import serializers
 
 from ecoshop.models import ShopImage, Shop
