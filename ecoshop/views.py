@@ -16,7 +16,8 @@ def ecoshop_list(request):
     address = address_finder(addr1, addr2)
 
     queryset = Shop.objects.filter(address__startswith=address)
-    serializer = ShopSerializer(queryset, many=True)
+    context = {"request": request}
+    serializer = ShopSerializer(queryset, context=context, many=True)
 
     return Response(serializer.data)
 
