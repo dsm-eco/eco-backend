@@ -3,13 +3,14 @@ from django.contrib import admin
 from ecoshop.models import Shop, ShopImage
 
 
-@admin.register(Shop)
+class ShopImageAdmin(admin.StackedInline):
+    model = ShopImage
+
+
 class EcoShopAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
     fields = ['name', 'address', 'content']
+    inlines = [ShopImageAdmin]
 
 
-@admin.register(ShopImage)
-class ShopImageAdmin(admin.ModelAdmin):
-    list_display = ['id', 'shop_id']
-    fields = ['shop_id', 'image']
+admin.site.register(Shop, EcoShopAdmin)
