@@ -1,6 +1,7 @@
 import json
 
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -13,7 +14,7 @@ from event.serializers import EventSerializer
 class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
     permission_classes = [IsAuthenticated, ]
-    queryset = Event.objects.all()
+    queryset = Event.objects.prefetch_related('eventimage_set').all()
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user, nickname=self.request.user.nickname)
@@ -33,7 +34,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['GET'])
     def heart(self, requset, pk):
-        instance = self.get_object()
+        instance = get_object_or_404(Event, pk=pk)
         user = requset.user
 
         if instance.event_likes_user.filter(id=user.id).exists():
